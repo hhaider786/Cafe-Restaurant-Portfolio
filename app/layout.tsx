@@ -24,7 +24,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en" className={`${playfair.variable} ${lato.variable}`}>
       <body
-        className="bg-[#12100a] text-[#f5ead8] antialiased overflow-x-hidden"
+        className="bg-[#12100a] text-[#f5ead8] antialiased overflow-x-clip"
         style={{ fontFamily: "var(--font-lato-var), sans-serif" }}
       >
         {children}

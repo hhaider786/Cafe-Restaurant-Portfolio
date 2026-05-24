@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import { Star } from "lucide-react";
 
 const reviews = [
@@ -13,50 +14,57 @@ const reviews = [
 ];
 
 export default function Reviews() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: false, margin: "100px" });
   const doubled = [...reviews, ...reviews];
 
   return (
-    <section className="py-24 overflow-hidden" style={{ background: "#12100a" }}>
+    <section className="py-24 overflow-hidden section-cv" style={{ background: "#12100a" }} aria-label="Guest reviews">
       <motion.div
         className="text-center mb-14 px-6"
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
       >
-        <span className="section-eyebrow">Praise from Our Guests</span>
-        <span className="amber-line mt-3 mx-auto w-20 block" />
+        <span className="section-eyebrow">Praise from our guests</span>
+        <span className="amber-line mt-3 mx-auto w-20 block" aria-hidden />
         <h2
           className="text-4xl md:text-5xl font-bold text-[#f5ead8] mt-5"
           style={{ fontFamily: "var(--font-playfair-var), Georgia, serif" }}
         >
-          Guest Reviews
+          Guest reviews
         </h2>
       </motion.div>
 
-      <div className="marquee-wrapper overflow-hidden">
-        <div className="marquee-track">
+      <div ref={ref} className="marquee-wrapper overflow-hidden">
+        <ul
+          className="marquee-track"
+          style={{ animationPlayState: inView ? "running" : "paused" }}
+        >
           {doubled.map((r, i) => (
-            <div key={i} className="flex-shrink-0 w-80 bg-[#1a1510] border border-[#d4a853]/10 p-7 mx-3">
+            <li key={i} className="flex-shrink-0 w-80 bg-[#1a1510] border border-[#e8be63]/15 p-7 mx-3 list-none">
               <div className="flex items-center justify-between mb-4">
-                <div className="flex gap-0.5">
+                <div className="flex gap-0.5" aria-label={`${r.rating} stars`}>
                   {Array.from({ length: r.rating }).map((_, j) => (
-                    <Star key={j} size={12} fill="#d4a853" className="text-[#d4a853]" />
+                    <Star key={j} size={12} fill="#e8be63" className="text-[#e8be63]" aria-hidden />
                   ))}
                 </div>
-                <span className="text-[#4a3a2a] text-[0.6rem] tracking-wider uppercase">{r.platform}</span>
+                <span className="text-[#5a4a35] text-[0.6rem] tracking-wider uppercase">{r.platform}</span>
               </div>
-              <p className="text-[#8a7a65] text-sm leading-relaxed mb-5 italic">&ldquo;{r.text}&rdquo;</p>
-              <div className="flex items-center gap-3 pt-4 border-t border-[#d4a853]/10">
-                <div className="w-8 h-8 rounded-full bg-[#d4a853]/15 flex items-center justify-center text-[#d4a853] text-xs font-bold">
+              <blockquote className="text-[#b8a380] text-sm leading-relaxed mb-5 italic">
+                &ldquo;{r.text}&rdquo;
+              </blockquote>
+              <div className="flex items-center gap-3 pt-4 border-t border-[#e8be63]/15">
+                <div className="w-8 h-8 rounded-full bg-[#e8be63]/20 flex items-center justify-center text-[#e8be63] text-xs font-bold" aria-hidden>
                   {r.name[0]}
                 </div>
                 <p className="text-[#f5ead8] text-sm" style={{ fontFamily: "var(--font-playfair-var), Georgia, serif" }}>
                   {r.name}
                 </p>
               </div>
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     </section>
   );

@@ -9,15 +9,17 @@ import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
-    <main>
+    <>
       <Navigation />
-      <Hero />
-      <Story />
-      <Menu />
-      <Gallery />
-      <Reservations />
-      <Reviews />
+      <main id="main">
+        <Hero />
+        <Story />
+        <Menu />
+        <Gallery />
+        <Reservations />
+        <Reviews />
+      </main>
       <Footer />
-    </main>
+    </>
   );
 }
